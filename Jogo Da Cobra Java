@@ -48,6 +48,12 @@ public class cobra ActionListener {
 
     }
 
+    @Override
+    public void paintComponnent(Graphics g);{
+        super.paintComponent(g); // Limpar tela
+        desenharTela(g);}
+}
+
 public void desenharTela(Graphics g) {
     if (estaRodando){}
      g.setColor(Color.red); // cor da comida
