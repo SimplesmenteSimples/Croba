@@ -1,0 +1,158 @@
+import javax.sql.rowset.serial.SerialBlob;
+import javax.swing.*; //para criar a janela do jogo
+import java.awt.*; //para desenhar gráficos na tela
+import java.awt.event.*; // eventos, clique,teclas e e etc
+import java.security.PrivateKey;
+import java.util.Random; // gera coisas aleatórias, posições
+
+public class cobra ActionListener {
+    // Variáveis tela
+    private static final int LARGURA_TELA = 1280; // Largura do jogo
+    private static final int ALTURA_TELA = 720; // ALTURA
+    private static final int TAMANHO_BLOCO = 50; // Tamanho cobra/comida
+
+    private static final int UNIDADE =  LARGURA_TELA * ALTURA_TELA / ( TAMANHO_BLOCO * TAMANHO_BLOCO); // TOTAL DE BLOCOS POSSIVEIS NA TELA
+    private static final int INTERVALO = 200; // velociade da croba milisegundos
+
+    private static final String NOME_FONTE = "Ink Free"; // Fonte dos textos
+
+    // Variàveis da cobra e do jogo
+
+    private final int[] eixoX = new int[UNIDADE]; // posições X da cobra
+    private final int[] eixoY = new int[UNIDADE]; // posições y da cobra
+
+    private int corpoCroba = 6; // Começa com 6 partes
+    private int blocos_comidos; //qntd de blocos comidos
+
+    private char direcao = 'D'; // Direção inicia (direita)
+    private boolean está_rodando = false; // se o jogo ta rodando ou n
+
+    Timer timer; // temporizador do jogo
+    Random random; // Gerar posições aleatórias da comida
+
+    cobra() {
+        random = new Random(); // iniciliza o gerador aleatório
+        setPreferreSize(new Dimension(LARGURA_TELA, ALTURA_TELA)); // defina o tamanho da tela
+        setBackground(Color.BLACK); // Cor de fundo da tela
+        setFocusable(true); // permite capturar teclas
+        addKeyListener(new LeitorDeteclas()); // ler as teclas
+        iniciarJogo();
+
+    }
+
+    public void iniciarJogo(){
+        criarBloco(); // criar a primeira comida
+        estaRodando = true;
+        timer = new Timer(INTERVALO,this); //cria o temporizador para remover a cobra
+        timer.start(); //começa a cotagem
+
+    }
+
+    @Override
+    public void paintComponnent(Graphics g);{
+        super.paintComponent(g); // Limpar tela
+        desenharTela(g);}
+}
+
+public void desenharTela(Graphics g) {
+    if (estaRodando){}
+     g.setColor(Color.red); // cor da comida
+     g.FillOval(blockX, blockY, TAMANHO_BLOCO, TAMANHO_BLOCO) // desenha a comida
+
+    for(int i = 0; i < corpoCobra i++); {
+        if (i == 0) {
+            g.setColor(Color.green); // Pinta a cabeça da Cobra
+        } else {
+            g.setColor(new Color(45, 180, 0)); //cor do corpo da cobra
+        }
+        g.fillRect(eixoX[i], eixoY[i], TAMANHO_BLOCO, TAMANHO_BLOCO);
+    }
+
+    //desenha a pontuation
+    g.setColor(Color.red);
+    g.setFont(new font(NOME_FONTE, font.BOLD, 40));
+    FontMetrics metrics = g.getFontMetrics(g.getFont());
+    g.drawString("Pontos: " + blocosComidos,
+            ( LARGURA_TELA - metrics.stringWidth("Pontos: " + blocosComidos))) / 2,
+    g.getFont().getSize();
+} else {
+    fimDeJogo(g);
+                }
+    }
+
+}
+ private void criarBloco() {
+        blocoX = random.nextInt(LARGURA_TELA / TAMANHO_BLOCO) * TAMANHO_BLOCO;
+ }
+  //mostrar o fim de jogo
+    public void fimDeJogo(Graphics g){
+        g.setColor(Color.red);
+        g.setFont(new font(NOME_FONTE, font.BOLD, 40));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        g.drawString("Pontos: " + blocosComidos,
+                ( LARGURA_TELA - metrics.stringWidth("Pontos: " + blocosComidos))) / 2,
+                g.getFont().getSize();
+        g.setFont(new Font(NOME_FONTE, font.BOLD, 75));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        g.drawString("👌",
+                (LARGURA_TELA - fonteFinal.stringWidgth)) / 2,
+        ALTURA_TELA / 2);
+    }
+    public void actionPerformed(ActionEvent e) {
+    if (estaRodando) {
+        andar();
+        alcancarBloco();
+        validarLimites();
+    }
+        repaint();
+    }
+    private void andar() {
+    // move o corpo
+        for ( int i = corpoCobra; i--) {
+            eixoX[i] = eixoX[i-1];
+            eixoY[i] = eixoY[i-1];
+        }
+        // move a cabeça na direcao atual
+        switch (direcao) {
+
+            case 'C':
+                eixoY[0] -= TAMANHO_BLOCO;
+                break;
+            case 'B':
+                eixoY[0] += TAMANHO_BLOCO;
+                break;
+            case 'E':
+                eixoX[0] -= TAMANHO_BLOCO;
+                break;
+            case 'D':
+                eixoX[0] += TAMANHO_BLOCO;
+                break;
+        }
+
+    }
+
+    //verifica se comeu a comidinha
+private void alcancarBloco() {}
+    if (eixoX[0] == blocoX && eixoY[0] == blocoY) {
+        corpoCobra++;
+        blocosComidos++;
+        criarBloco(); //cria nova comida
+
+//colidir com o proprio corpo
+                for (int i = corpo_Cobra; i > 0; i--){
+        if (eixoX[0] == eixoX[i] && eixoY[0] == eixoY[i]) {
+estaRodando = false;
+        break;
+        }
+
+        }
+        // Bateu as botas (nas bordas)
+        if (eixoX[0] < 0 || eixoX[0] > LARGURA_TELA || eixoY[0] < 0 || eixoY[0] > ALTURA_TELA) {
+estaRodando = false;
+        }
+        if (!estaRodando){
+        timer.stop();
+                
+                }
+                        }
+}
