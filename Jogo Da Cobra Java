@@ -152,7 +152,10 @@ estaRodando = false;
         }
         if (!estaRodando){
         timer.stop();
-                
+
                 }
                         }
+    //leitor de teclas para mudar d e direção
+
+
 }
